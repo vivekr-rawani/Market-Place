@@ -1,13 +1,11 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'http://localhost:5000' });
+const API = axios.create({ baseURL: 'https://market-place-api-7uny.onrender.com/' });
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('profile')) {
     req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
-    console.log(req.headers.Authorization);
   }
-
   return req;
 });
 

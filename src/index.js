@@ -8,16 +8,12 @@ import thunk from 'redux-thunk'
 import reducers from './reducers'
 import { legacy_createStore as createStore } from 'redux';
 
-
 const store = createStore(reducers, compose(applyMiddleware(thunk)))
-
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <App />
   </Provider>,
-
 );
 
 
