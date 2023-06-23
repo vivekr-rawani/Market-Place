@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'https://market-place-api-7uny.onrender.com/' });
+const API = axios.create({ baseURL: 'https://market-place-api-7uny.onrender.com' });
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('profile')) {
