@@ -1,19 +1,18 @@
-import { Container, AppBar, Typography, Grow, Grid } from '@material-ui/core'
+import { Container, Grow, Grid } from '@material-ui/core'
 import { useState, useEffect } from 'react'
 import Posts from '../Posts/Posts'
 import Form from '../Form/Form'
 import { useDispatch } from 'react-redux'
-
 import { getPosts } from '../../actions/posts'
-import useStyles from './styles'
 import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
     const [currentId, setCurrentId] = useState(null)
-    const classes = useStyles();
+    
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user =   JSON.parse(localStorage.getItem('profile'))
+    console.log(user);
     if(!user) navigate('/auth')
     useEffect(() => {
       dispatch(getPosts());
