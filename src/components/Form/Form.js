@@ -9,8 +9,8 @@ function Form({ currentId, setCurrentId }) {
     const post = useSelector((state)=> currentId ? state.posts.find(p => p._id===currentId) : null)
     const classes = useStyles()
     const dispatch = useDispatch()
-    const[ postData, setPostData] = useState({creator:'', title:'', message:'', tags:'', selectedFile : ''})
-   
+    const[ postData, setPostData] = useState({ title:'', message:'', tags:'', selectedFile : ''})
+    const user = JSON.parse(localStorage.getItem('profile'))
     useEffect(()=>{
         if(post) setPostData(post)
     }, [post])
@@ -20,30 +20,27 @@ function Form({ currentId, setCurrentId }) {
         e.preventDefault()
         console.log(currentId)
         if(currentId) {
-            dispatch(updatePost(currentId, postData))
+            dispatch(updatePost({...postData, name : user?.result?.name}))
         } else {
-        dispatch(createPost(postData))
+        dispatch(createPost({...postData, name : user?.result?.name}))
         }
         clear()
     }
     const clear = ()=>{
         setCurrentId(null)
-        setPostData({creator:'', title:'', message:'', tags:'', selectedFile : ''})
+        setPostData({ title:'', message:'', tags:'', selectedFile : ''})
     }
+    if(!user)
+        return(
+            <Paper>
+                Please Login
+            </Paper>
+        )
     
     return (
         <Paper className={classes.paper}>
             <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant='h6'>Create a post</Typography>
-                <TextField
-                    name='creator'
-                    label='Creator'
-                    variant='outlined'
-                    fullWidth
-                    value={postData.creator}
-                    onChange={(e) => setPostData({...postData, creator: e.target.value})}
-                    />
-
                     <TextField
                     name='title'
                     label='Title'

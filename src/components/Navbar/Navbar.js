@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AppBar, Typography, Toolbar, Avatar, Button } from '@material-ui/core';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import decode from 'jwt-decode';
+// import decode from 'jwt-decode';
 
 import memories from '../../images/peppermint-leaf.png'
 import * as actionType from '../../actionConstants';
@@ -17,21 +17,21 @@ const Navbar = () => {
  
   const logout = () => {
     dispatch({ type: actionType.LOGOUT });
-    navigate('/auth');
+    navigate('/');
     setUser(null);
   };
 
   useEffect(() => {
-    const token = user?.token;
+    // const token = user?.token;
 
-    if (token) {
-      const decodedToken = decode(token);
+    // if (token) {
+    //   const decodedToken = decode(token);
 
-      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
-    }
+    //    if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+    // }
 
     setUser(JSON.parse(localStorage.getItem('profile')));
-  }, [location]);
+  }, [location, user?.token]);
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
