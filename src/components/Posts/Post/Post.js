@@ -9,12 +9,15 @@ import useStyles from './styles'
 import moment from 'moment'
 import { deletePost, likePost } from '../../../actions/posts'
 import { } from '../../../api'
+import { useNavigate } from 'react-router-dom'
 
 
 function Post({ post, setCurrentId }) {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const handleDelete = () => {
     dispatch(deletePost(post._id))
+    navigate('/')
   }
   const user = JSON.parse(localStorage.getItem('profile'))
   const classes = useStyles()

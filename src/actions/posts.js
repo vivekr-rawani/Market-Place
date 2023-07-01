@@ -4,13 +4,14 @@ import * as api from '../api'
 //Action creators : are fn that return actions
 
 
-export const getPosts = () => async(dispatch) => {
+export const getPosts = (page) => async(dispatch) => {
     
     try {
-        const { data } = await api.fetchPosts()
-        const action = {type : FETCH_ALL, payload : data }
-        
-        dispatch(action)
+        dispatch({ type: START_LOADING });
+        const { data } = await api.fetchPosts(page)
+       console.log(data);
+        dispatch({type : FETCH_ALL, payload : data })
+        dispatch({ type: END_LOADING });
     } catch (error) {
         console.log(error.message)
     }
@@ -19,10 +20,9 @@ export const getPosts = () => async(dispatch) => {
 export const getPost = (id) => async (dispatch) => {
     try {
       dispatch({ type: START_LOADING });
-  
       const { data } = await api.fetchPost(id);
-  
       dispatch({ type: FETCH_POST, payload: { post: data } });
+      dispatch({ type: END_LOADING });
     } catch (error) {
       console.log(error);
     }
@@ -31,10 +31,11 @@ export const getPost = (id) => async (dispatch) => {
   export const getPostsBySearch = (searchQuery) => async (dispatch) => {
     try {
       dispatch({ type: START_LOADING });
-      const { data: { data } } = await api.fetchPostsBySearch(searchQuery);
+      const { data : {data} } = await api.fetchPostsBySearch(searchQuery);
+      //console.log(data);
   
-      dispatch({ type: FETCH_BY_SEARCH, payload: { data } });
-      dispatch({ type: END_LOADING });
+      dispatch({ type: FETCH_BY_SEARCH, payload:  data  });
+     dispatch({ type: END_LOADING });
     } catch (error) {
       console.log(error);
     }
