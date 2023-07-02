@@ -23,7 +23,7 @@ const App = () => {
             <Route path="/posts" element={  <Home /> } />
             <Route path="/posts/search" element={  <Home /> } />
             <Route path="/posts/:id" element={ <PostDetails /> } />
-            <Route path="/auth" element={!user ? <Auth/> : <Navigate to='/posts' />} />
+            <Route path="/auth" element={ <Auth/>} />
           </Routes>
         </Container>
       </BrowserRouter>

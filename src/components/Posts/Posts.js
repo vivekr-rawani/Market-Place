@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import Post from './Post/Post'
 import useStyles from './styles'
 import { CircularProgress, Grid } from '@material-ui/core'
+import MultiActionAreaCard from './Post/Postss'
 
 function Posts({ setCurrentId }) {
     const classes = useStyles()
@@ -17,14 +18,15 @@ function Posts({ setCurrentId }) {
         <>
         {
             isLoading ? <CircularProgress /> : (
-            <Grid className={classes.mainContainer} container alignItems='stretch' spacing={3}>
+                <Grid className={classes.mainContainer} container alignItems='stretch' spacing={3}>
                 {posts.map((post) => (
-                    <Grid key={post._id} item xs={12} sm={12} md={6} lg={3}>
-                        <Post post={post} setCurrentId={setCurrentId} />
+                    <Grid key={post._id} item xs={12} sm={12} md={12} lg={12}>
+                        <MultiActionAreaCard post={post} setCurrentId={setCurrentId} />
                     </Grid>))}
             </Grid>
             )
         }
+        
         </>
 
     )

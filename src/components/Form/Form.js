@@ -22,7 +22,7 @@ function Form({ currentId, setCurrentId }) {
         if(currentId) {
             dispatch(updatePost({...postData, name : user?.result?.name}))
         } else {
-        dispatch(createPost({...postData, name : user?.result?.name}))
+        dispatch(createPost({...postData, name : user?.result?.name, userProfilePicture : user?.result?.profilePicture}))
         }
         clear()
     }
