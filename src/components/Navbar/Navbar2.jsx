@@ -11,6 +11,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 
 import memories from '../../images/logo.png'
 import * as actionType from '../../actionConstants';
+import { getPostsBySearch } from '../../actions/posts';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
@@ -56,6 +57,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    const [search, setSearch] = useState('')
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
@@ -64,19 +66,29 @@ export default function PrimarySearchAppBar() {
         navigate('/auth');
         setUser(null);
     };
+    const [tags, setTags] = useState([])
+
+    const searchPost = () => {
+        if (search.trim() || tags) {
+            dispatch(getPostsBySearch({ search, tags }))
+            navigate(`/posts/search?searchQuery=${search}&tags=${tags}`)
+        } else {
+            navigate('/')
+        }
+    }
 
     useEffect(() => {
         // const token = user?.token;
-    
+
         // if (token) {
         //   const decodedToken = decode(token);
-    
+
         //    if (decodedToken.exp * 1000 < new Date().getTime()) logout();
         // }
-    
+
         setUser(JSON.parse(localStorage.getItem('profile')));
-      }, [location, user?.token]);
-    
+    }, [location, user?.token]);
+
 
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -96,9 +108,9 @@ export default function PrimarySearchAppBar() {
     const handleMenuClose = (e) => {
         setAnchorEl(null);
         handleMobileMenuClose();
-        if(e.target.innerText === 'Logout')  logout()
-        if(e.target.innerText === 'My account') navigate(`/user/${user?.result._id}`)
-               
+        if (e.target.innerText === 'Logout') logout()
+        if (e.target.innerText === 'My account') navigate(`/user/${user?.result._id}`)
+
     };
 
     const handleMobileMenuOpen = (event) => {
@@ -153,12 +165,12 @@ export default function PrimarySearchAppBar() {
                 </IconButton>
                 <p>Messages</p>
             </MenuItem>
-            <MenuItem sx={{mx : '16px'}}>
+            <MenuItem sx={{ mx: '16px' }}>
                 <IconButton
                     size="large"
                     aria-label="show 17 new notifications"
                     color="inherit"
-                    
+
                 >
                     <Badge badgeContent={17} color="error">
                         <NotificationsIcon />
@@ -196,21 +208,21 @@ export default function PrimarySearchAppBar() {
                     </IconButton>
                     <Typography
                         variant="h6"
-                        
+
                         sx={{ display: { xs: 'none', sm: 'block' } }}
                     >
                         Market Place
                     </Typography>
                     <Typography component={Link} to="/" >
-                    <img  src={memories} alt="icon" height="60" />
-     
+                        <img src={memories} alt="icon" height="60" />
+
                     </Typography>
                     <Search >
                         <StyledInputBase
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
                         />
-                        <IconButton onClick={() => { window.alert('f') }}>
+                        <IconButton onClick= { searchPost }>
                             <SearchIconWrapper >
                                 <SearchIcon />
                             </SearchIconWrapper>
@@ -218,7 +230,7 @@ export default function PrimarySearchAppBar() {
 
                     </Search>
                     <Box sx={{ flexGrow: 1 }} />
-                    <Box sx={{ display: { xs: 'none', md: 'flex' }}}>
+                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                             <Badge badgeContent={4} color="error">
                                 <MailIcon />
@@ -244,17 +256,17 @@ export default function PrimarySearchAppBar() {
             >
               <AccountCircle />
             </IconButton> */}
-            {user?.result ? (
-                <Tooltip title="Open settings">
-                            <IconButton onClick={handleProfileMenuOpen} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                            </IconButton>
-                        </Tooltip>
-            ) : (
-                <Button component={Link} to="/auth" variant="contained"  sx={{color : 'white'}} >Sign In</Button>
-            )
-            }
-                       
+                        {user?.result ? (
+                            <Tooltip title="Open settings">
+                                <IconButton onClick={handleProfileMenuOpen} sx={{ p: 0 }}>
+                                    <Avatar alt={user?.result?.name} src={user?.result?.profilePicture} />
+                                </IconButton>
+                            </Tooltip>
+                        ) : (
+                            <Button component={Link} to="/auth" variant="contained" sx={{ color: 'white' }} >Sign In</Button>
+                        )
+                        }
+
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
