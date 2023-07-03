@@ -9,8 +9,6 @@ import MultiActionAreaCard from './Post/Postss'
 function Posts({ setCurrentId }) {
     const classes = useStyles()
     const {posts, isLoading}   = useSelector((state) => state.posts)
-    console.log(posts);
- 
     if(!posts.length && !isLoading) return 'No Posts'
 
     

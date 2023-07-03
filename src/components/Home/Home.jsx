@@ -25,8 +25,7 @@ const Home = () => {
     
     const query = useQuery()
     const page = query.get('page') || 1
-    console.log(page);
-    //console.log(page);
+
     const searchQuery = query.get('searchQuery')
     const [search, setSearch] = useState('')
     const [tags, setTags] = useState([])

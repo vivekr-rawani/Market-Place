@@ -4,7 +4,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 // import decode from 'jwt-decode';
 
-import memories from '../../images/peppermint-leaf.png'
+import memories from '../../images/logo.png'
 import * as actionType from '../../actionConstants';
 import useStyles from './styles';
 

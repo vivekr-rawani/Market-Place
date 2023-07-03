@@ -1,4 +1,4 @@
-import { CREATE, DELETE, FETCH_ALL, FETCH_BY_SEARCH, LIKE_POST, UPDATE, START_LOADING, END_LOADING } from "../actionConstants"
+import { CREATE, DELETE, FETCH_ALL, FETCH_BY_SEARCH, LIKE_POST, UPDATE, START_LOADING, END_LOADING, FETCH_POST } from "../actionConstants"
 const intialState = {
     posts:[],
     currentPage: 0,
@@ -25,11 +25,11 @@ const reducers = ( state=intialState, action) =>{
         case LIKE_POST:
             return {...state, posts:state.posts.map( post => post._id === action.payload._id ? action.payload : post)}
         case START_LOADING:
-            console.log('start');
             return {...state, isLoading : true}
         case END_LOADING:
-            console.log('end');
             return {...state, isLoading : false}
+        case FETCH_POST:
+            return {...state, post : action.payload }
         default:
             return state
     }

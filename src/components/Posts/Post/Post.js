@@ -21,9 +21,7 @@ function Post({ post, setCurrentId }) {
   }
   const user = JSON.parse(localStorage.getItem('profile'))
   const classes = useStyles()
-  const handleClick = () => {
-    console.log('detals');
-  }
+
   return (
     <Card className={classes.card}>
     
