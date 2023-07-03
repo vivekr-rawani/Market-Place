@@ -32,8 +32,9 @@ export default function MultiActionAreaCard({ post, setCurrentId }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const handleAction = () => {
-
+  const handleAction = (e) => {
+    e.stopPropagation()
+    console.log('action');
   }
   const handleLike = () => {
     dispatch(likePost(post._id))
@@ -43,12 +44,18 @@ export default function MultiActionAreaCard({ post, setCurrentId }) {
     dispatch(getPost(post._id))
     navigate(`/posts/${post._id}`)
   }
+  const openUserDetails = ()=>{
+    //window.alert('df')
+    navigate(`/user/${post.creator}`)
+  }
 
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
+      onClick={openUserDetails}
+      className={classes.cardHeader}
         avatar={
-          <Avatar aria-label="recipe" alt={post?.name} src={post?.userProfilePicture}>{post.name.charAt(0)}          </Avatar>
+          <Avatar aria-label="recipe" alt={post?.name} src={post?.userProfilePicture} >{post.name.charAt(0)}</Avatar>
         }
         action={(user?.result?.googleId || user?.result?._id === post?.creator) ? <IconButton onClick={handleAction}><MoreVertIcon fontSize="medium" /></IconButton> : null}
         title={post.name}
