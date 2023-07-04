@@ -15,6 +15,7 @@ import { AUTH } from '../../actionConstants';
 import useStyles from './styles';
 import Input from './Input';
 import BackDrop from '../BackDrop'
+import jwt_decode from 'jwt-decode'
 
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '', profilePicture: '' };
 
@@ -41,12 +42,14 @@ const SignUp = () => {
   };
 
   const googleSuccess = async (res) => {
-    console.log(res);
+    
+    const token = jwt_decode(res.credential)
     const result = res?.profileObj;
-    const token = res?.tokenId;
+    console.log(token);
+   
 
     try {
-      dispatch({ type: AUTH, data: { result, token } });
+      //dispatch({ type: AUTH, data: { result, token } });
 
       navigate('/');
     } catch (error) {
