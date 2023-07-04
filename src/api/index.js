@@ -1,6 +1,5 @@
 import axios from 'axios';
-const isOnline = true;
-const link = isOnline ? 'https://market-place-api-7uny.onrender.com' : 'http://localhost:5000';
+const link = process.env.REACT_APP_API
 const API = axios.create({ baseURL: link });
 
 API.interceptors.request.use((req) => {

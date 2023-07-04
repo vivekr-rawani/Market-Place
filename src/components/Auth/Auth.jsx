@@ -61,6 +61,7 @@ const SignUp = () => {
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
   const { message, isLoading} = useSelector((state) => state.auth)
   console.log(isLoading);
+  //console.log(process.env.REACT_APP_CLIENT_ID)
   return (
     <Container component="main" maxWidth="xs">
       <Paper className={classes.paper} elevation={3}>
@@ -103,7 +104,8 @@ const SignUp = () => {
           <GoogleLogin
             onSuccess={googleSuccess}
             onError={googleError}
-          />;
+            
+          />
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Button onClick={switchMode}>
