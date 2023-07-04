@@ -1,4 +1,4 @@
-import {LOGOUT, AUTH, START_LOADING, END_LOADING, SHOW_ERROR } from '../actionConstants';
+import {LOGOUT, AUTH, START_LOADING, END_LOADING, SHOW_ERROR, } from '../actionConstants';
 const initialState = {
   authData : null,
   isLoading : false,
@@ -7,6 +7,9 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case AUTH:
+      localStorage.setItem('profile', JSON.stringify({ ...action?.data }));
+      return { ...state, authData: action.data, loading: false, errors: null, message : null };
+    case 'GOOGLE_AUTH':
       localStorage.setItem('profile', JSON.stringify({ ...action?.data }));
       return { ...state, authData: action.data, loading: false, errors: null, message : null };
     case LOGOUT:

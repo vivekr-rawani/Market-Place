@@ -10,7 +10,7 @@ import FileBase from 'react-file-base64'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 // import Icon from './icon';
-import { signin, signup } from '../../actions/auth';
+import { signin, signup, googleSignin } from '../../actions/auth';
 import { AUTH } from '../../actionConstants';
 import useStyles from './styles';
 import Input from './Input';
@@ -43,13 +43,9 @@ const SignUp = () => {
 
   const googleSuccess = async (res) => {
     
-    const token = jwt_decode(res.credential)
-    const result = res?.profileObj;
-    console.log(token);
-   
-
+    const data = jwt_decode(res.credential)
     try {
-      //dispatch({ type: AUTH, data: { result, token } });
+     dispatch(googleSignin(data))
 
       navigate('/');
     } catch (error) {

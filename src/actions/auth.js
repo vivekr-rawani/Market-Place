@@ -29,3 +29,16 @@ export const signup = (formData, navigate) => async (dispatch) => {
   }
   dispatch({ type: END_LOADING })
 };
+
+export const googleSignin = (formData)=> async(dispatch) =>{
+  try {
+    dispatch({ type: START_LOADING })
+    const { data } = await api.googleSignin(formData)
+    dispatch({ type: AUTH, data })
+    dispatch({ type: END_LOADING })
+  } catch (error) {
+    console.log(error);
+    dispatch({ type: SHOW_ERROR, payload: error.message })
+  }
+  dispatch({ type: END_LOADING })
+}
