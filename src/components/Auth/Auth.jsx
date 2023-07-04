@@ -4,14 +4,14 @@ import { Avatar, Button, Paper, Grid, Typography, Container, Backdrop, CircularP
 import Alert from '@material-ui/lab/Alert';
 
 import { useNavigate } from 'react-router-dom';
-import { GoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
 import FileBase from 'react-file-base64'
 
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 // import Icon from './icon';
-import { signin, signup, googleSignin } from '../../actions/auth';
-import { AUTH } from '../../actionConstants';
+import { signin, signup, googleSignIn, googleSignUp } from '../../actions/auth';
+// import { AUTH } from '../../actionConstants';
 import useStyles from './styles';
 import Input from './Input';
 import BackDrop from '../BackDrop'
@@ -41,26 +41,42 @@ const SignUp = () => {
     }
   };
 
-  const googleSuccess = async (res) => {
-    
-    const data = jwt_decode(res.credential)
-    try {
-     dispatch(googleSignin(data))
 
-      navigate('/');
-    } catch (error) {
-      console.log(error);
+  function handleGoogleLoginSuccess(tokenResponse) {
+
+    const accessToken = tokenResponse.access_token;
+    console.log(tokenResponse)
+    if (isSignup) {
+      dispatch(googleSignUp(accessToken,navigate))
+    } else {
+      dispatch(googleSignIn(accessToken, navigate))
     }
-  };
-
+    
+  }
   const googleError = (err) => {
     console.log(err)
     console.log('Google Sign In was unsuccessful. Try again later');
   }
+  const login = useGoogleLogin({ onSuccess: handleGoogleLoginSuccess, onError: googleError });
+
+
+
+  // const googleSuccess = async (res) => {
+
+  //   const data = jwt_decode(res.credential)
+  //   try {
+  //     dispatch(googleSignIn(data))
+  //     navigate('/');
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-  const { message, isLoading} = useSelector((state) => state.auth)
-  console.log(isLoading);
+  const { message, isLoading } = useSelector((state) => state.auth)
+  
   //console.log(process.env.REACT_APP_CLIENT_ID)
   return (
     <Container component="main" maxWidth="xs">
@@ -72,7 +88,7 @@ const SignUp = () => {
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}  >
-            {message && <Alert severity="error">{message}</Alert>}
+              {message && <Alert severity="error">{message}</Alert>}
             </Grid>
             {isSignup && (
               <>
@@ -101,11 +117,10 @@ const SignUp = () => {
           <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             {isSignup ? 'Sign Up' : 'Sign In'}
           </Button>
-          <GoogleLogin
-            onSuccess={googleSuccess}
-            onError={googleError}
-            
-          />
+          <Button fullWidth variant="contained" color="secondary" className={classes.submit} onClick={login}>
+            {isSignup ? 'Sign Up ' : 'Sign In '} with Google
+          </Button>
+
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Button onClick={switchMode}>
@@ -115,7 +130,7 @@ const SignUp = () => {
           </Grid>
         </form>
       </Paper>
-      <BackDrop isLoading={isLoading}/>
+      <BackDrop isLoading={isLoading} />
     </Container>
   );
 };

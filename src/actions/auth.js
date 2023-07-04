@@ -25,20 +25,34 @@ export const signup = (formData, navigate) => async (dispatch) => {
 
   } catch (error) {
     console.log(error);
-    dispatch({ type: SHOW_ERROR, payload: error.message })
+    dispatch({ type: SHOW_ERROR, payload: error.response.data.message  })
   }
   dispatch({ type: END_LOADING })
 };
 
-export const googleSignin = (formData)=> async(dispatch) =>{
+export const googleSignIn = (formData,navigate)=> async(dispatch) =>{
   try {
     dispatch({ type: START_LOADING })
-    const { data } = await api.googleSignin(formData)
+    const { data } = await api.googleSignIn(formData)
     dispatch({ type: AUTH, data })
     dispatch({ type: END_LOADING })
+    navigate('/posts')
   } catch (error) {
     console.log(error);
-    dispatch({ type: SHOW_ERROR, payload: error.message })
+    dispatch({ type: SHOW_ERROR, payload: error.response.data.message  })
+  }
+  dispatch({ type: END_LOADING })
+}
+export const googleSignUp = (formData,navigate)=> async(dispatch) =>{
+  try {
+    dispatch({ type: START_LOADING })
+    const { data } = await api.googleSignUp(formData)
+    dispatch({ type: AUTH, data })
+    dispatch({ type: END_LOADING })
+    navigate('/posts')
+  } catch (error) {
+    console.log(error);
+    dispatch({ type: SHOW_ERROR, payload: error.response.data.message  })
   }
   dispatch({ type: END_LOADING })
 }

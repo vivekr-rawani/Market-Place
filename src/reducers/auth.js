@@ -9,9 +9,6 @@ const authReducer = (state = initialState, action) => {
     case AUTH:
       localStorage.setItem('profile', JSON.stringify({ ...action?.data }));
       return { ...state, authData: action.data, loading: false, errors: null, message : null };
-    case 'GOOGLE_AUTH':
-      localStorage.setItem('profile', JSON.stringify({ ...action?.data }));
-      return { ...state, authData: action.data, loading: false, errors: null, message : null };
     case LOGOUT:
       localStorage.clear();
       return { ...state, authData: null, loading: false, errors: null, message : null };
