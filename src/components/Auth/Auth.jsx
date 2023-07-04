@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { Avatar, Button, Paper, Grid, Typography, Container, Backdrop, CircularProgress } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import FileBase from 'react-file-base64'
@@ -12,6 +14,7 @@ import { signin, signup } from '../../actions/auth';
 import { AUTH } from '../../actionConstants';
 import useStyles from './styles';
 import Input from './Input';
+import BackDrop from '../BackDrop'
 
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '', profilePicture: '' };
 
@@ -56,7 +59,8 @@ const SignUp = () => {
   }
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
+  const { message, isLoading} = useSelector((state) => state.auth)
+  console.log(isLoading);
   return (
     <Container component="main" maxWidth="xs">
       <Paper className={classes.paper} elevation={3}>
@@ -66,6 +70,9 @@ const SignUp = () => {
         <Typography component="h1" variant="h5">{isSignup ? 'Sign up' : 'Sign in'}</Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
+            <Grid item xs={12}  >
+            {message && <Alert severity="error">{message}</Alert>}
+            </Grid>
             {isSignup && (
               <>
                 <Input name="firstName" label="First Name" handleChange={handleChange} autoFocus half />
@@ -106,6 +113,7 @@ const SignUp = () => {
           </Grid>
         </form>
       </Paper>
+      <BackDrop isLoading={isLoading}/>
     </Container>
   );
 };
