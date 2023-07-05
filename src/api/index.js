@@ -21,10 +21,7 @@ export const deletePost = (id) => API.delete(`/posts/${id}`);
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);
 
-export const googleSignIn = (accessToken) => API.post("/user/signin", {
+export const googleAuth = (accessToken) => API.post("/user/googleAuth", {
     googleAccessToken: accessToken
 })
 
-export const googleSignUp = (accessToken) => API.post("/user/signup", {
-    googleAccessToken: accessToken
-})

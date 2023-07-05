@@ -30,23 +30,11 @@ export const signup = (formData, navigate) => async (dispatch) => {
   dispatch({ type: END_LOADING })
 };
 
-export const googleSignIn = (formData,navigate)=> async(dispatch) =>{
+
+export const googleAuth = (formData,navigate)=> async(dispatch) =>{
   try {
     dispatch({ type: START_LOADING })
-    const { data } = await api.googleSignIn(formData)
-    dispatch({ type: AUTH, data })
-    dispatch({ type: END_LOADING })
-    navigate('/posts')
-  } catch (error) {
-    console.log(error);
-    dispatch({ type: SHOW_ERROR, payload: error.response.data.message  })
-  }
-  dispatch({ type: END_LOADING })
-}
-export const googleSignUp = (formData,navigate)=> async(dispatch) =>{
-  try {
-    dispatch({ type: START_LOADING })
-    const { data } = await api.googleSignUp(formData)
+    const { data } = await api.googleAuth(formData)
     dispatch({ type: AUTH, data })
     dispatch({ type: END_LOADING })
     navigate('/posts')

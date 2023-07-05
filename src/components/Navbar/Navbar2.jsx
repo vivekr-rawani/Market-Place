@@ -27,13 +27,16 @@ const Search = styled('div')(({ theme }) => ({
     '&:hover': {
         backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(),
     marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(3),
         width: 'auto',
     },
+    [theme.breakpoints.down('xs')] : {
+        display : 'none'
+    }
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -49,7 +52,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 2),
+        padding: theme.spacing(1, 0, 1, 2),
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
@@ -178,7 +181,7 @@ export default function PrimarySearchAppBar() {
                     color="inherit"
 
                 >
-                    <Badge badgeContent={17} color="error">
+                    <Badge badgeContent={0} color="error">
                         <NotificationsIcon />
                     </Badge>
                 </IconButton>
@@ -206,6 +209,37 @@ export default function PrimarySearchAppBar() {
             </MenuItem> */}
         </Menu>
     )
+    if (!user) return (
+        <Box sx={{ flexGrow: 1, mb: 2 }}>
+            <AppBar position="static">
+                <Toolbar>
+                   
+                    <Typography component={Link} to="/" >
+                        <img src={memories} alt="icon" height="60" />
+
+                    </Typography>
+                    <Typography
+                        className={classes.typography}
+                        variant="h6"
+                        sx={{ color: 'red' }}
+                    >
+                        Market Place
+                    </Typography>
+                   
+                    <Box sx={{ flexGrow: 1 }} />
+                    <Box >
+
+
+                        <IconButton size="large" edge="end" aria-label="login" color="inherit" component={Link} to="/auth" variant="contained" sx={{ color: 'white' }}>
+                        <Typography component='h6'style={{marginRight : 5}}> Sign In</Typography>
+                            <AccountCircleIcon fontSize='large' />
+                           
+                        </IconButton>
+                    </Box>
+                </Toolbar>
+            </AppBar>
+        </Box>
+    )
 
     return (
         <Box sx={{ flexGrow: 1, mb: 2 }}>
@@ -221,9 +255,9 @@ export default function PrimarySearchAppBar() {
                         <MenuIcon />
                     </IconButton>
                     <Typography
-                    className={classes.typography}
+                        className={classes.typography}
                         variant="h6"
-                        sx={{ color : 'red' }}
+                        sx={{ color: 'red' }}
                     >
                         Market Place
                     </Typography>
@@ -231,7 +265,7 @@ export default function PrimarySearchAppBar() {
                         <img src={memories} alt="icon" height="60" />
 
                     </Typography>
-                    <Search >
+                    {user && <Search >
                         <StyledInputBase
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
@@ -242,15 +276,15 @@ export default function PrimarySearchAppBar() {
                             </SearchIconWrapper>
                         </IconButton>
 
-                    </Search>
+                    </Search>}
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                        {user && <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                             <Badge badgeContent={4} color="error">
                                 <MailIcon />
                             </Badge>
-                        </IconButton>
-                        <IconButton
+                        </IconButton>}
+                        {user && <IconButton
                             size="large"
                             aria-label="show 17 new notifications"
                             color="inherit"
@@ -258,7 +292,7 @@ export default function PrimarySearchAppBar() {
                             <Badge badgeContent={17} color="error">
                                 <NotificationsIcon />
                             </Badge>
-                        </IconButton>
+                        </IconButton>}
                         {/* <IconButton
               size="large"
               edge="end"
@@ -273,7 +307,7 @@ export default function PrimarySearchAppBar() {
                         {user?.result ? (
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleProfileMenuOpen} sx={{ p: 0 }}>
-                                    <Avatar alt={user?.result?.name} src={user?.result?.profilePicture} />
+                                    <Avatar alt={user?.result?.name} src={user?.result?.profilePicture} >{user?.result?.name.charAt().toUpperCase()} </Avatar>
                                 </IconButton>
                             </Tooltip>
                         ) : (

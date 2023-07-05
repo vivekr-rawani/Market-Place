@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Button, Paper, Grid, Typography, Container, Backdrop, CircularProgress } from '@material-ui/core';
+import { Avatar, Button, Paper, Grid, Typography, Container, } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
 import { useNavigate } from 'react-router-dom';
@@ -10,12 +10,12 @@ import FileBase from 'react-file-base64'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 // import Icon from './icon';
-import { signin, signup, googleSignIn, googleSignUp } from '../../actions/auth';
-// import { AUTH } from '../../actionConstants';
+import { signin, signup, googleAuth } from '../../actions/auth';
+
 import useStyles from './styles';
 import Input from './Input';
 import BackDrop from '../BackDrop'
-import jwt_decode from 'jwt-decode'
+
 
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '', profilePicture: '' };
 
@@ -33,7 +33,6 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (isSignup) {
       dispatch(signup(form, navigate));
     } else {
@@ -42,16 +41,10 @@ const SignUp = () => {
   };
 
 
-  function handleGoogleLoginSuccess(tokenResponse) {
+  const handleGoogleLoginSuccess = (tokenResponse) => {
+    const accessToken = tokenResponse.access_token
+    dispatch(googleAuth(accessToken, navigate))
 
-    const accessToken = tokenResponse.access_token;
-    console.log(tokenResponse)
-    if (isSignup) {
-      dispatch(googleSignUp(accessToken,navigate))
-    } else {
-      dispatch(googleSignIn(accessToken, navigate))
-    }
-    
   }
   const googleError = (err) => {
     console.log(err)
@@ -76,7 +69,7 @@ const SignUp = () => {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
   const { message, isLoading } = useSelector((state) => state.auth)
-  
+
   //console.log(process.env.REACT_APP_CLIENT_ID)
   return (
     <Container component="main" maxWidth="xs">
@@ -118,7 +111,7 @@ const SignUp = () => {
             {isSignup ? 'Sign Up' : 'Sign In'}
           </Button>
           <Button fullWidth variant="contained" color="secondary" className={classes.submit} onClick={login}>
-            {isSignup ? 'Sign Up ' : 'Sign In '} with Google
+            Continue with Google
           </Button>
 
           <Grid container justifyContent="flex-end">
