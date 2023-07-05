@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { styled, alpha } from '@material-ui/core/styles';
 
-import { Avatar, AppBar, Box, Toolbar, Tooltip, IconButton, Typography, InputBase, Badge, MenuItem, Menu, Button } from '@material-ui/core';
+import { Avatar, AppBar, Box, Toolbar, Tooltip, IconButton, Typography, InputBase, Badge, MenuItem, Menu, } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
@@ -15,6 +15,10 @@ import { getPostsBySearch } from '../../actions/posts';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
+
+
+
+
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -61,6 +65,7 @@ export default function PrimarySearchAppBar() {
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
+    const classes = useStyles();
     const logout = () => {
         dispatch({ type: actionType.LOGOUT });
         navigate('/auth');
@@ -108,7 +113,8 @@ export default function PrimarySearchAppBar() {
     const handleMenuClose = (e) => {
         setAnchorEl(null);
         handleMobileMenuClose();
-        if (e.target.innerText === 'Logout') logout()
+        if (user && e.target.innerText === 'Logout') logout()
+        if (!user) navigate('/auth')
         if (e.target.innerText === 'My account') navigate(`/user/${user?.result._id}`)
 
     };
@@ -178,7 +184,15 @@ export default function PrimarySearchAppBar() {
                 </IconButton>
                 <p>Notifications</p>
             </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
+            <MenuItem onClick={handleMenuClose}>
+                <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                    <AccountCircleIcon />
+                </IconButton>
+                {user ? 'Logout' : 'Sign In'}</MenuItem>
+
+            {user && <MenuItem onClick={handleMenuClose}>My account</MenuItem>}
+
+            {/* <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
                     size="large"
                     aria-label="account of current user"
@@ -189,9 +203,9 @@ export default function PrimarySearchAppBar() {
                     <AccountCircle />
                 </IconButton>
                 <p>Profile</p>
-            </MenuItem>
+            </MenuItem> */}
         </Menu>
-    );
+    )
 
     return (
         <Box sx={{ flexGrow: 1, mb: 2 }}>
@@ -207,9 +221,9 @@ export default function PrimarySearchAppBar() {
                         <MenuIcon />
                     </IconButton>
                     <Typography
+                    className={classes.typography}
                         variant="h6"
-
-                        sx={{ display: { xs: 'none', sm: 'block' } }}
+                        sx={{ color : 'red' }}
                     >
                         Market Place
                     </Typography>
@@ -222,7 +236,7 @@ export default function PrimarySearchAppBar() {
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
                         />
-                        <IconButton onClick= { searchPost }>
+                        <IconButton onClick={searchPost}>
                             <SearchIconWrapper >
                                 <SearchIcon />
                             </SearchIconWrapper>
@@ -263,7 +277,9 @@ export default function PrimarySearchAppBar() {
                                 </IconButton>
                             </Tooltip>
                         ) : (
-                            <Button component={Link} to="/auth" variant="contained" sx={{ color: 'white' }} >Sign In</Button>
+                            <IconButton size="large" aria-label="show 4 new mails" color="inherit" component={Link} to="/auth" variant="contained" sx={{ color: 'white' }}>
+                                <AccountCircleIcon fontSize='large' />
+                            </IconButton>
                         )
                         }
 
