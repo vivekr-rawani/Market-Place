@@ -17,7 +17,8 @@ const reducers = ( state=intialState, action) =>{
         case FETCH_BY_SEARCH:
             return {...state, posts: action.payload}
         case CREATE:
-            return {...state, posts : [...state.posts, action.payload], success : true}
+            state.posts.unshift(action.payload);
+            return {...state, posts : state.posts , feedback : ['success', state.posts._id]}
         case UPDATE:
             return {...state, posts : state.posts.map( post => post._id === action.payload._id ? action.payload : post)}
         case DELETE:
@@ -30,8 +31,10 @@ const reducers = ( state=intialState, action) =>{
             return {...state, isLoading : false}
         case FETCH_POST:
             return {...state, post : action.payload }
-        case 'FAILURE':
-            return {...state, success : false}
+        case 'FAIL':
+            return {...state, feedback : ['error', action.payload.message]}
+        case 'CLEAR': 
+            return {...state, feedback : null}
         default:
             return state
     }

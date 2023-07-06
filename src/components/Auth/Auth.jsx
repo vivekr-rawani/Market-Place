@@ -5,8 +5,9 @@ import Alert from '@material-ui/lab/Alert';
 
 import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
-import FileBase from 'react-file-base64'
-
+import { BiImageAdd } from 'react-icons/bi'
+import { ImAttachment, ImLocation } from 'react-icons/im'
+import { CiLocationOn } from 'react-icons/ci'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 // import Icon from './icon';
@@ -17,7 +18,7 @@ import Input from './Input';
 import BackDrop from '../BackDrop'
 
 
-const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '', profilePicture: '' };
+const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '', profilePicture: '', filename: '' };
 
 const SignUp = () => {
   const [form, setForm] = useState(initialState);
@@ -64,7 +65,21 @@ const SignUp = () => {
   //     console.log(error);
   //   }
   // };
+  const handleInput = (e) => {
+    const selectedfile = e.target.files;
+    if (selectedfile.length > 0) {
+      const [imageFile] = selectedfile;
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        const srcData = fileReader.result;
+        let filename = imageFile.name;
+        if (filename.length > 15) filename = filename.slice(0, 15) + '...'
+        setForm((s) => { return { ...s, profilePicture: srcData, filename: filename } })
 
+      };
+      fileReader.readAsDataURL(imageFile);
+    }
+  }
 
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
@@ -90,23 +105,29 @@ const SignUp = () => {
               </>
             )}
             <Input name="email" label="Email Address" handleChange={handleChange} type="email" />
-            <Input name="password" label="Password" handleChange={handleChange} type="password" />
+            <Input name="password" label="Password" handleChange={handleChange} type="password" autocomplete="current-password" />
             {isSignup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" />}
             {isSignup && <Grid container spacing={0} className={classes.fileupload}>
-              <Grid item xs={12} sm={6} >
-                <Typography variant='body1'>{form.profilePicture === '' ? 'Choose profile image' : 'Profile Image uploaded'}</Typography>
+              <Grid item xs={6}>
+                <Typography variant='subtitle2'>{form.filename === '' ? 'Choose profile image' : form.filename}</Typography>
               </Grid>
-              <Grid item xs={12} sm={4}>
-
-                <FileBase
-                  type="file"
-                  multiple={false}
-                  onDone={({ base64 }) => setForm({ ...form, profilePicture: base64 })
-                  }
-                />
+              <Grid item xs={6}>
+                <div className={classes.attachments}>
+                  <label className={classes.customFileUpload}>
+                    <input type="file" onInput={handleInput} className={classes.inputFile} accept='image/*' />
+                    <BiImageAdd />
+                  </label>
+                </div>
               </Grid>
             </Grid>}
           </Grid>
+
+          {form.profilePicture && <Grid container justifyContent="center">
+            <Grid item>
+              <img src={form.profilePicture} alt='' style={{height:'100px'}}/>
+            </Grid>
+          </Grid>
+          }
           <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             {isSignup ? 'Sign Up' : 'Sign In'}
           </Button>

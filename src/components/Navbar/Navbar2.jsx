@@ -259,10 +259,10 @@ export default function PrimarySearchAppBar() {
                         variant="h6"
                         sx={{ color: 'red' }}
                     >
-                        Market Place
+                        Socio Media
                     </Typography>
                     <Typography component={Link} to="/" >
-                        <img src={memories} alt="icon" height="60" />
+                        {/* <img src={memories} alt="icon" height="60" /> */}
 
                     </Typography>
                     {user && <Search >

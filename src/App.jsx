@@ -26,7 +26,7 @@ const App = () => {
             <Route path="/" element={ user ? <Navigate to='/posts' /> : <Navigate to='/auth' /> } />
             <Route path="/posts" element={<Home />} />
             <Route path="/posts/search" element={ <Home /> } />
-            <Route path="/posts/:id" element={ <PostDetails /> } />
+            <Route path="/post/:id" element={ <PostDetails /> } />
             <Route path="/user/:id" element={ <UserDetails /> } />
             <Route path="/auth" element={ <Auth/>} />
             <Route path="/test" element ={<Test/>}/>

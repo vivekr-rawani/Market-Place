@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
+
 export default makeStyles({
   media: {
     height: 0,
@@ -50,6 +51,9 @@ export default makeStyles({
     justifyContent: 'space-between',
   },
   cardHeader : {
-    cursor : 'pointer'
+    cursor : 'pointer',
+    width : 'auto',
+   
+    
   }
 })

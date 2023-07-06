@@ -27,10 +27,16 @@ export default makeStyles((theme) => ({
   googleButton: {
     marginBottom: theme.spacing(2),
   },
-  fileupload :{
-    border : '1px dotted grey',
-    borderRadius: '3%',
-    padding: theme.spacing(3, 1, 2),
-    margin: theme.spacing(0, 1, 2),
+  inputFile: {
+    display: 'none'
+
+  },
+  customFileUpload: {
+    display: 'inline-block',
+    fontSize: '1.2rem',
+    cursor: 'pointer',
+  },
+  attachments : {
+  marginLeft : '-40px'
   }
 }));

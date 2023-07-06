@@ -26,7 +26,7 @@ export const getPost = (id) => async (dispatch) => {
       
     } catch (error) {
       console.log(error);
-      dispatch({ type: 'FAILURE' });
+      
     }
   };
 
@@ -42,11 +42,13 @@ export const getPost = (id) => async (dispatch) => {
   };
 export const createPost = (post)=> async(dispatch)=>{
     try {
+        dispatch({ type: START_LOADING });
         const { data } = await api.createPost(post)
         dispatch( { type : CREATE, payload:data})
+        dispatch({ type: END_LOADING });
     } catch (err) {
+        dispatch({ type: 'FAIL' , payload : err});
         console.log(err);
-        
     }
 }
 

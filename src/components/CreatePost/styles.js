@@ -40,6 +40,7 @@ export default makeStyles((theme) => ({
   },
   attachments :{
     display : 'flex',
+
     width : '97%',
     flexDirection : 'row',
     justifyContent : 'space-evenly',

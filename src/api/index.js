@@ -1,5 +1,7 @@
 import axios from 'axios';
 const link = process.env.REACT_APP_API
+
+
 const API = axios.create({ baseURL: link });
 
 API.interceptors.request.use((req) => {
@@ -9,7 +11,7 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const fetchPost = (id) => API.get(`/posts/${id}`);
+export const fetchPost = (id) => API.get(`/post/${id}`);
 export const fetchPosts = (page) => API.get(`/posts?page=${page}`);
 export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
 

@@ -24,7 +24,7 @@ function Test() {
             fileReader.readAsDataURL(imageFile);
         }
     }
-    console.log(formData)
+  
     const handleSubmit = () => {
      
     }
