@@ -72,14 +72,14 @@ export default function MultiActionAreaCard({ post, setCurrentId }) {
           <Typography gutterBottom variant="h5" component="div">
             {post.title}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="secondary">
             {post.message}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon onClick={handleLike} />
+        <IconButton aria-label="add to favorites" onClick={handleLike}>
+          <FavoriteIcon />
           {post.likes.length > 1 ? `${post.likes.length}` : `${post.likes.length}`}
         </IconButton>
         <IconButton>

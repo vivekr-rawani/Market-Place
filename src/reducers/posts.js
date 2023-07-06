@@ -3,7 +3,7 @@ const intialState = {
     posts:[],
     currentPage: 0,
     numberOfPages:0,
-    isLoading:true
+    isLoading:true,
 }
 const reducers = ( state=intialState, action) =>{
     switch(action.type) {
@@ -17,7 +17,7 @@ const reducers = ( state=intialState, action) =>{
         case FETCH_BY_SEARCH:
             return {...state, posts: action.payload}
         case CREATE:
-            return {...state, posts : [...state.posts, action.payload]}
+            return {...state, posts : [...state.posts, action.payload], success : true}
         case UPDATE:
             return {...state, posts : state.posts.map( post => post._id === action.payload._id ? action.payload : post)}
         case DELETE:
@@ -30,6 +30,8 @@ const reducers = ( state=intialState, action) =>{
             return {...state, isLoading : false}
         case FETCH_POST:
             return {...state, post : action.payload }
+        case 'FAILURE':
+            return {...state, success : false}
         default:
             return state
     }

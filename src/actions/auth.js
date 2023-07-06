@@ -41,6 +41,7 @@ export const googleAuth = (formData,navigate)=> async(dispatch) =>{
   } catch (error) {
     console.log(error);
     dispatch({ type: SHOW_ERROR, payload: error.response.data.message  })
+    dispatch({ type: END_LOADING })
   }
   dispatch({ type: END_LOADING })
 }

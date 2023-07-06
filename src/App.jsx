@@ -10,12 +10,12 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import UserDetails from './components/UserDetails/UserDetails'
 import { useEffect } from 'react'
 import Footer from './components/Footer/Footer'
+import Test from './Pages/TestPage/Test'
 
 
 const App = () => {
   const user = JSON.parse(localStorage.getItem('profile'))
   useEffect(()=>{
-    console.log('user');
   }, [user])
   
   
@@ -29,7 +29,7 @@ const App = () => {
             <Route path="/posts/:id" element={ <PostDetails /> } />
             <Route path="/user/:id" element={ <UserDetails /> } />
             <Route path="/auth" element={ <Auth/>} />
-
+            <Route path="/test" element ={<Test/>}/>
             <Route path="/404" element ={<ErrorPage/>}/>
             <Route path="*" element={<Navigate to="/404"/>} />
           </Routes>

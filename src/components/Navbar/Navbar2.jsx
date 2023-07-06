@@ -167,8 +167,8 @@ export default function PrimarySearchAppBar() {
             onClose={handleMobileMenuClose}
         >
             <MenuItem>
-                <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="error">
+                <IconButton size="medium" aria-label="show 4 new mails" color="inherit">
+                    <Badge overlap="rectangular" badgeContent={4} color="error">
                         <MailIcon />
                     </Badge>
                 </IconButton>
@@ -176,19 +176,19 @@ export default function PrimarySearchAppBar() {
             </MenuItem>
             <MenuItem sx={{ mx: '16px' }}>
                 <IconButton
-                    size="large"
+                    size="medium"
                     aria-label="show 17 new notifications"
                     color="inherit"
 
                 >
-                    <Badge badgeContent={0} color="error">
+                    <Badge overlap="rectangular" badgeContent={0} color="error">
                         <NotificationsIcon />
                     </Badge>
                 </IconButton>
                 <p>Notifications</p>
             </MenuItem>
             <MenuItem onClick={handleMenuClose}>
-                <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                <IconButton size="medium" aria-label="show 4 new mails" color="inherit">
                     <AccountCircleIcon />
                 </IconButton>
                 {user ? 'Logout' : 'Sign In'}</MenuItem>
@@ -197,7 +197,7 @@ export default function PrimarySearchAppBar() {
 
             {/* <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
-                    size="large"
+                    size="medium"
                     aria-label="account of current user"
                     aria-controls="primary-search-account-menu"
                     aria-haspopup="true"
@@ -230,7 +230,7 @@ export default function PrimarySearchAppBar() {
                     <Box >
 
 
-                        <IconButton size="large" edge="end" aria-label="login" color="inherit" component={Link} to="/auth" variant="contained" sx={{ color: 'white' }}>
+                        <IconButton size="medium" edge="end" aria-label="login" color="inherit" onClick={()=>{navigate('auth')}} sx={{ color: 'white' }}>
                         <Typography component='h6'style={{marginRight : 5}}> Sign In</Typography>
                             <AccountCircleIcon fontSize='large' />
                            
@@ -246,7 +246,7 @@ export default function PrimarySearchAppBar() {
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
-                        size="large"
+                        size="medium"
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
@@ -279,22 +279,22 @@ export default function PrimarySearchAppBar() {
                     </Search>}
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        {user && <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                            <Badge badgeContent={4} color="error">
+                        {user && <IconButton size="medium" aria-label="show 4 new mails" color="inherit">
+                            <Badge overlap="rectangular" badgeContent={4} color="error">
                                 <MailIcon />
                             </Badge>
                         </IconButton>}
                         {user && <IconButton
-                            size="large"
+                            size="medium"
                             aria-label="show 17 new notifications"
                             color="inherit"
                         >
-                            <Badge badgeContent={17} color="error">
+                            <Badge overlap="rectangular" badgeContent={17} color="error">
                                 <NotificationsIcon />
                             </Badge>
                         </IconButton>}
                         {/* <IconButton
-              size="large"
+              size="medium"
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
@@ -311,7 +311,7 @@ export default function PrimarySearchAppBar() {
                                 </IconButton>
                             </Tooltip>
                         ) : (
-                            <IconButton size="large" aria-label="show 4 new mails" color="inherit" component={Link} to="/auth" variant="contained" sx={{ color: 'white' }}>
+                            <IconButton size="medium" aria-label="show 4 new mails" color="inherit" component={Link} to="/auth" variant="contained" sx={{ color: 'white' }}>
                                 <AccountCircleIcon fontSize='large' />
                             </IconButton>
                         )
@@ -320,7 +320,7 @@ export default function PrimarySearchAppBar() {
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
-                            size="large"
+                            size="medium"
                             aria-label="show more"
                             aria-controls={mobileMenuId}
                             aria-haspopup="true"
