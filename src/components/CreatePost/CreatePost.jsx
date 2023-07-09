@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import useStyles from './styles'
-import { TextField, Button, Typography, Paper, Grid } from '@material-ui/core'
+import { TextField, Typography, Paper, Grid, IconButton } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
-import { createPost, updatePost } from '../../actions/posts.js'
+import { createPost,  updatePost } from '../../actions/posts'
 import { BiImageAdd } from 'react-icons/bi'
-import { ImAttachment, ImLocation } from 'react-icons/im'
-import { CiLocationOn } from 'react-icons/ci'
-// import Snackbar from '@material-ui/core/Snackbar';
-// import Alert from '@material-ui/lab/Alert';
+import { BiMap } from 'react-icons/bi'
+import { FiDelete } from 'react-icons/fi'
+import { VscSend} from 'react-icons/vsc'
 
-function Form({ currentId, setCurrentId, setShow }) {
+
+
+
+function Form({ currentId, setCurrentId, setOpen, setFeedback }) {
     const post = useSelector((state) => currentId ? state.posts.find(p => p._id === currentId) : null)
     const classes = useStyles()
     const dispatch = useDispatch()
     const [postData, setPostData] = useState({ title: '', message: '', tags: '', selectedFile: '' })
     const user = JSON.parse(localStorage.getItem('profile'))
+    const myPost = useSelector((state)=> state.posts)
 
     useEffect(() => {
         if (post) setPostData(post)
@@ -35,20 +38,21 @@ function Form({ currentId, setCurrentId, setShow }) {
             fileReader.readAsDataURL(imageFile);
         }
     }
-
+    //const myPost = useSelector((state)=> state.posts.feedback)
     const handleSubmit = async (e) => {
-
         e.preventDefault()
+        //let feedback;
         if (currentId) {
             dispatch(updatePost({ ...postData, name: user?.result?.name }))
-
+            
 
         } else {
-            dispatch(createPost({ ...postData, name: user?.result?.name, userProfilePicture: user?.result?.profilePicture }))
+         dispatch(createPost({ ...postData, name: user?.result?.name, userProfilePicture: user?.result?.profilePicture }))
+         console.log(myPost);
         }
         clear()
-        setShow(false)
-
+        setOpen(true);
+        
     }
     const clear = () => {
         setCurrentId(null)
@@ -70,20 +74,22 @@ function Form({ currentId, setCurrentId, setShow }) {
 
             <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant='h6'>Create a post</Typography>
-                <TextField
+                {/* <TextField
                     name='title'
-                    label='Title'
+                    label='Message'
                     variant='outlined'
                     fullWidth
                     value={postData.title}
                     onChange={(e) => setPostData({ ...postData, title: e.target.value })}
-                />
+                /> */}
 
                 <TextField
                     name='message'
                     label='Message'
                     variant='outlined'
                     fullWidth
+                    multiline
+                    minRows={4}
                     value={postData.message}
                     onChange={(e) => setPostData({ ...postData, message: e.target.value })}
 
@@ -102,19 +108,25 @@ function Form({ currentId, setCurrentId, setShow }) {
                         <input type="file" onInput={handleInput} className={classes.inputFile} accept='image/*' />
                         <BiImageAdd />
                     </label>
-                    <ImAttachment fontSize='1.2rem' />
-                    <CiLocationOn fontSize='1.2rem' />
-                    <ImLocation fontSize='1.2rem' />
+                    <BiMap fontSize='1.4rem'/ >
                 </div>
-                <Grid container justifyContent="center">
-                    <Grid item>
-                        <img src={postData.selectedFile} alt='' style={{ height: '100px' }} />
-                    </Grid>
-                </Grid>
-                <Button className={classes.buttonSubmit} variant='contained' color='primary' size='large' type='submit' fullWidth>Submit</Button>
-                <Button variant='contained' color='secondary' size='small' onClick={clear} fullWidth>Clear</Button>
+             
+            {postData.selectedFile && <Grid container justifyContent="center">
+            <Grid container justifyContent='center' alignItems='flex-start'>
+              <img src={postData.selectedFile} alt='' style={{ height: '13rem' }} />
+              <IconButton
+                style={{ padding: 0, margin : 0 }}
+                onClick={() => { setPostData({ ...postData, selectedFile: '' }) }}>
+                <FiDelete fontSize='1.2rem' />
+              </IconButton>
+               </Grid>
+           
+          </Grid>
+          }
+          <IconButton 
+              disabled={postData.message === ''}
+               color='primary' size='large' type='submit' fullWidth><VscSend fontSize='2rem'/></IconButton>      
             </form>
-
         </Paper>
     )
 }

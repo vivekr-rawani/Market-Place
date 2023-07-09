@@ -13,7 +13,7 @@ import CommentIcon from '@material-ui/icons/AddCommentOutlined'
 import useStyles from './styles'
 import moment from 'moment'
 import { useDispatch, useSelector } from 'react-redux'
-import { deletePost, getPost, likePost } from '../../../actions/posts'
+import { deletePost, getPost, likePost } from '../../../actions/posts.js'
 import { styled } from '@material-ui/core/styles';
 import { useNavigate } from 'react-router-dom'
 import { AiFillLike, AiOutlineLike, AiOutlineDislike, AiFillDislike, AiOutlineHeart } from 'react-icons/ai'

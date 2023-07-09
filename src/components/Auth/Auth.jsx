@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Button, Paper, Grid, Typography, Container, } from '@material-ui/core';
+import { Avatar, Button, Paper, Grid, Typography, Container, IconButton, } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
 import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 import { BiImageAdd } from 'react-icons/bi'
-import { ImAttachment, ImLocation } from 'react-icons/im'
-import { CiLocationOn } from 'react-icons/ci'
+
+import { FcRemoveImage } from 'react-icons/fc'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 // import Icon from './icon';
@@ -100,13 +100,13 @@ const SignUp = () => {
             </Grid>
             {isSignup && (
               <>
-                <Input name="firstName" label="First Name" handleChange={handleChange} autoFocus half />
-                <Input name="lastName" label="Last Name" handleChange={handleChange} half />
+                <Input name="firstName" label="First Name" handleChange={handleChange} autoComplete="First Name" autoFocus half />
+                <Input name="lastName" label="Last Name" handleChange={handleChange} autoComplete="Last Name" half />
               </>
             )}
-            <Input name="email" label="Email Address" handleChange={handleChange} type="email" />
-            <Input name="password" label="Password" handleChange={handleChange} type="password" autocomplete="current-password" />
-            {isSignup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" />}
+            <Input name="email" label="Email Address" handleChange={handleChange} type="email" autoComplete="email" />
+            <Input name="password" label="Password" handleChange={handleChange} type="password" autoComplete="current-password" />
+            {isSignup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" autoComplete="current-password" />}
             {isSignup && <Grid container spacing={0} className={classes.fileupload}>
               <Grid item xs={6}>
                 <Typography variant='subtitle2'>{form.filename === '' ? 'Choose profile image' : form.filename}</Typography>
@@ -123,8 +123,13 @@ const SignUp = () => {
           </Grid>
 
           {form.profilePicture && <Grid container justifyContent="center">
-            <Grid item>
-              <img src={form.profilePicture} alt='' style={{height:'100px'}}/>
+            <Grid container justifyContent='center' alignItems='flex-start'>
+              <img src={form.profilePicture} alt='' style={{ height: '100px' }} />
+              <IconButton
+                style={{ padding: 0, margin : 0 }}
+                onClick={() => { setForm({ ...form, profilePicture: '', filename: '' }) }}>
+                <FcRemoveImage fontSize='1.5rem' />
+              </IconButton>
             </Grid>
           </Grid>
           }

@@ -1,4 +1,4 @@
-import { CREATE, DELETE, FETCH_ALL, LIKE_POST, UPDATE, START_LOADING, FETCH_POST, FETCH_BY_SEARCH, END_LOADING } from '../actionConstants'
+import { CREATE, DELETE, FETCH_ALL, LIKE_POST, UPDATE, START_LOADING, FETCH_POST, FETCH_BY_SEARCH, END_LOADING, FEEDBACK} from '../actionConstants'
 import * as api from '../api'
 
 //Action creators : are fn that return actions
@@ -9,7 +9,6 @@ export const getPosts = (page) => async(dispatch) => {
     try {
         dispatch({ type: START_LOADING });
         const { data } = await api.fetchPosts(page)
-       //console.log(data);
         dispatch({type : FETCH_ALL, payload : data })
         dispatch({ type: END_LOADING });
     } catch (error) {
@@ -23,7 +22,6 @@ export const getPost = (id) => async (dispatch) => {
       const { data } = await api.fetchPost(id);
       dispatch({ type: FETCH_POST, payload: data });
       dispatch({ type: END_LOADING });
-      
     } catch (error) {
       console.log(error);
       
@@ -42,12 +40,11 @@ export const getPost = (id) => async (dispatch) => {
   };
 export const createPost = (post)=> async(dispatch)=>{
     try {
-        dispatch({ type: START_LOADING });
         const { data } = await api.createPost(post)
-        dispatch( { type : CREATE, payload:data})
-        dispatch({ type: END_LOADING });
+        dispatch( { type : CREATE, payload:data});
+       dispatch({type : FEEDBACK, payload : 'Success'})
     } catch (err) {
-        dispatch({ type: 'FAIL' , payload : err});
+        dispatch({type : FEEDBACK, payload : 'Failed'})
         console.log(err);
     }
 }

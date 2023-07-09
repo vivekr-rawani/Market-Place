@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { styled, alpha } from '@material-ui/core/styles';
 
-import { Avatar, AppBar, Box, Toolbar, Tooltip, IconButton, Typography, InputBase, Badge, MenuItem, Menu, } from '@material-ui/core';
+import { Avatar, AppBar, Box, Toolbar, Tooltip, IconButton, Typography, InputBase, Badge, MenuItem, Menu, Paper, } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -9,7 +9,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
-import memories from '../../images/logo.png'
+import memories from '../../images/logoFinal.png'
 import * as actionType from '../../actionConstants';
 import { getPostsBySearch } from '../../actions/posts';
 import useStyles from './styles';
@@ -17,7 +17,9 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 
 
-
+function useQuery() {
+    return new URLSearchParams(useLocation().search)
+  }
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -64,22 +66,26 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
-    const [search, setSearch] = useState('')
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
     const classes = useStyles();
+    const query = useQuery()
     const logout = () => {
         dispatch({ type: actionType.LOGOUT });
         navigate('/auth');
         setUser(null);
     };
-    const [tags, setTags] = useState([])
+
+      const searchQuery = query.get('searchQuery')
+      const [search, setSearch] = useState('')
+     const [tags, setTags] = useState([])
 
     const searchPost = () => {
-        if (search.trim() || tags) {
+         setSearch(searchQuery)
+        if (search?.trim() || tags) {
             dispatch(getPostsBySearch({ search, tags }))
-            navigate(`/posts/search?searchQuery=${search}&tags=${tags}`)
+            navigate(`/posts/search?searchQuery=${searchQuery}&tags=${tags}`)
         } else {
             navigate('/')
         }
@@ -261,10 +267,10 @@ export default function PrimarySearchAppBar() {
                     >
                         Socio Media
                     </Typography>
-                    <Typography component={Link} to="/" >
-                        {/* <img src={memories} alt="icon" height="60" /> */}
+                    <Box component={Link} to="/" marginTop={1} marginLeft={1}>
+                        <img src={memories} alt="icon" height="60" />
 
-                    </Typography>
+                    </Box>
                     {user && <Search >
                         <StyledInputBase
                             placeholder="Search…"
@@ -277,6 +283,7 @@ export default function PrimarySearchAppBar() {
                         </IconButton>
 
                     </Search>}
+                    
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         {user && <IconButton size="medium" aria-label="show 4 new mails" color="inherit">

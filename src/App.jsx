@@ -1,13 +1,14 @@
 import {  Routes, Route, Navigate } from 'react-router-dom'
 
-import Home from './components/Home/Home'
+import Home from './Pages/Home/Home'
 import Navbar2 from './components/Navbar/Navbar2'
 import Auth from './components/Auth/Auth'
-import PostDetails from './components/PostDetail/PostDetails'
+import PostDetails from './Pages/PostDetail/PostDetails'
 import ErrorPage from './Pages/ErrorPage/ErrorPage'
 
+
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import UserDetails from './components/UserDetails/UserDetails'
+import UserDetails from './Pages/UserDetails/UserDetails'
 import { useEffect } from 'react'
 import Footer from './components/Footer/Footer'
 import Test from './Pages/TestPage/Test'

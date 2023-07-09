@@ -1,4 +1,4 @@
-import { CREATE, DELETE, FETCH_ALL, FETCH_BY_SEARCH, LIKE_POST, UPDATE, START_LOADING, END_LOADING, FETCH_POST } from "../actionConstants"
+import { CREATE, DELETE, FETCH_ALL, FETCH_BY_SEARCH, LIKE_POST, UPDATE, START_LOADING, END_LOADING, FETCH_POST, FEEDBACK } from "../actionConstants"
 const intialState = {
     posts:[],
     currentPage: 0,
@@ -18,7 +18,7 @@ const reducers = ( state=intialState, action) =>{
             return {...state, posts: action.payload}
         case CREATE:
             state.posts.unshift(action.payload);
-            return {...state, posts : state.posts , feedback : ['success', state.posts._id]}
+            return {...state, posts : state.posts, feedback : null}
         case UPDATE:
             return {...state, posts : state.posts.map( post => post._id === action.payload._id ? action.payload : post)}
         case DELETE:
@@ -31,11 +31,9 @@ const reducers = ( state=intialState, action) =>{
             return {...state, isLoading : false}
         case FETCH_POST:
             return {...state, post : action.payload }
-        case 'FAIL':
-            return {...state, feedback : ['error', action.payload.message]}
-        case 'CLEAR': 
-            return {...state, feedback : null}
-        default:
+        case FEEDBACK:
+            return{...state, feedback : action.payload}
+         default:
             return state
     }
 }

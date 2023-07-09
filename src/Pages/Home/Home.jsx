@@ -1,17 +1,14 @@
 import { Grid, Paper, IconButton } from '@material-ui/core'
 
 import { useEffect, useState, } from 'react'
-import Posts from '../Posts/Posts'
+import Posts from '../../components/Posts/Posts'
+import Form from '../../components/CreatePost/CreatePost'
+import { useLocation, useNavigate } from 'react-router-dom'
+import Paginate from '../../components/Pagination/Pagination'
+import useStyles from './styles'
+import { TfiWrite } from 'react-icons/tfi'
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
-import Form from '../CreatePost/CreatePost'
-// import { useDispatch } from 'react-redux'
-// import { getPostsBySearch, } from '../../actions/posts'
-import { useLocation } from 'react-router-dom'
-import Paginate from '../Pagination/Pagination'
-
-import useStyles from './styles'
-import { FcPlus } from 'react-icons/fc'
 import { useSelector } from 'react-redux'
 
 function useQuery() {
@@ -22,7 +19,17 @@ const Home = () => {
   const classes = useStyles()
   const [currentId, setCurrentId] = useState(null)
   const [show, setShow] = useState(false)
+  const [open, setOpen] = useState(false);
 
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+const {feedback} = useSelector(state=> state.posts)
 
   // const user =   JSON.parse(localStorage.getItem('profile'))
   // if(!user) navigate('/auth')
@@ -50,23 +57,6 @@ const Home = () => {
 
   // const handleAddTag = (tag) => setTags([...tags, tag])
   // const handleDeleteTag = (tag) => setTags(tags.filter(t => t !== tag))
-  const [open, setOpen] = useState(false);
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-  };
-  const {feedback : f } = useSelector((state) => state.posts)
-  let feedback;
-  if(f) feedback = f[0]
-  useEffect(() => {
-    if (feedback) {
-      setOpen(true)
-    }
-  }, [f, feedback])
-
 
   return (
     <Grid container>
@@ -75,15 +65,15 @@ const Home = () => {
       </Grid>
       <Grid item sm={6} mr={12}>
         {show && <Paper elevation={6} style={{ marginBottom: 30 }}>
-          <Form currentId={currentId} setCurrentId={setCurrentId} setShow={setShow} />
+          <Form currentId={currentId} setCurrentId={setCurrentId} setOpen={setOpen} />
         </Paper>}
 
-        <Grid container justifyContent='space-between' alignItems='stretch' spacing={2} mx='25px'>
-          <Grid item>
+        <Grid container justifyContent='space-between' alignItems='stretch' spacing={3} mx='25px'>
+          <Grid item style={{width : '100%'}}>
             <Posts setCurrentId={setCurrentId} />
           </Grid>
         </Grid>
-        <Paper className='pagination' elevation={6}>
+        <Paper className='pagination' elevation={3}>
           <Paginate page={page} />
         </Paper>
 
@@ -114,17 +104,15 @@ const Home = () => {
 
             </AppBar> */}
 
-
           </Grid>
         </Paper>
       </Grid>
-      <IconButton className={classes.createPost} onClick={() => { window.scrollTo(0, 0); setShow(true) }}>
-        <FcPlus fontSize={50} />
+      <IconButton className={classes.createPost} onClick={() => { window.scrollTo(0, 0); setShow((p)=>!p) }}>
+        <TfiWrite fontSize={25} />
       </IconButton>
-
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-        <Alert onClose={handleClose} severity={feedback}>
-          {feedback === 'success'? 'Post created !!' : 'Something went wrong!!'}
+        <Alert onClose={handleClose} severity={feedback === 'Success' ? 'success' : 'error'}>
+          {feedback === 'Success' ? 'Post Created !' : feedback}
         </Alert>
       </Snackbar>
     </Grid>
