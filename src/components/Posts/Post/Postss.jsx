@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { RWebShare } from "react-web-share";
 // import Card from '@mui/material/Card';
 // import CardContent from '@mui/material/CardContent';
 // import CardMedia from '@mui/material/CardMedia';
@@ -13,7 +14,7 @@ import CommentIcon from '@material-ui/icons/AddCommentOutlined'
 import useStyles from './styles'
 import moment from 'moment'
 import { useDispatch, useSelector } from 'react-redux'
-import { deletePost, getPost, likePost } from '../../../actions/posts.js'
+import { deletePost, getPost, getUserPosts, likePost } from '../../../actions/posts.js'
 import { styled } from '@material-ui/core/styles';
 import { useNavigate } from 'react-router-dom'
 import { AiFillLike, AiOutlineLike, AiOutlineDislike, AiFillDislike, AiOutlineHeart } from 'react-icons/ai'
@@ -55,6 +56,7 @@ export default function MultiActionAreaCard({ post, setCurrentId }) {
     navigate(`/post/${post._id}`)
   }
   const openUserDetails = () => {
+    dispatch(getUserPosts(post.creator))
     navigate(`/user/${post.creator}`)
   }
   const [likes, setLikes] = useState(post?.likes);
@@ -128,10 +130,7 @@ export default function MultiActionAreaCard({ post, setCurrentId }) {
           alt="image"
         />}
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {post.title}
-          </Typography>
-          <Typography variant="body2" color="secondary">
+          <Typography gutterBottom variant="h6" component="div">
             {post.message}
           </Typography>
         </CardContent>
@@ -151,9 +150,17 @@ export default function MultiActionAreaCard({ post, setCurrentId }) {
        
        
         <ExpandMore
-          onClick={() => { }}
           aria-label="share">
-          <BiSolidShareAlt />
+                <RWebShare
+        data={{
+          text: post.message,
+          url: `https://soci-o-media.netlify.app/post/${post._id}`, 
+          title: `Post from &{post.name}`,
+        }}
+      >
+        <BiSolidShareAlt />
+      </RWebShare>
+         
         </ExpandMore>
       </CardActions>
       <Typography variant='subtitle2'  style={{margin : '-12px 0 12px 12px', color : '#757575'}} > {likeMessage} </Typography> 

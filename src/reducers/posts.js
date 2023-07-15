@@ -1,4 +1,4 @@
-import { CREATE, DELETE, FETCH_ALL, FETCH_BY_SEARCH, LIKE_POST, UPDATE, START_LOADING, END_LOADING, FETCH_POST, FEEDBACK } from "../actionConstants"
+import { CREATE, DELETE, FETCH_ALL, FETCH_BY_SEARCH, LIKE_POST, UPDATE, START_LOADING, END_LOADING, FETCH_POST, FEEDBACK, GET_USER_POSTS } from "../actionConstants"
 const intialState = {
     posts:[],
     currentPage: 0,
@@ -33,6 +33,8 @@ const reducers = ( state=intialState, action) =>{
             return {...state, post : action.payload }
         case FEEDBACK:
             return{...state, feedback : action.payload}
+        case GET_USER_POSTS:
+            return {...state, userPosts : action.payload}
          default:
             return state
     }

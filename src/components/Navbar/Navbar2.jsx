@@ -229,7 +229,7 @@ export default function PrimarySearchAppBar() {
                         variant="h6"
                         sx={{ color: 'red' }}
                     >
-                        Market Place
+                        Socio Media
                     </Typography>
                    
                     <Box sx={{ flexGrow: 1 }} />

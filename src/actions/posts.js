@@ -1,4 +1,4 @@
-import { CREATE, DELETE, FETCH_ALL, LIKE_POST, UPDATE, START_LOADING, FETCH_POST, FETCH_BY_SEARCH, END_LOADING, FEEDBACK} from '../actionConstants'
+import { CREATE, DELETE, FETCH_ALL, LIKE_POST, UPDATE, START_LOADING, FETCH_POST, FETCH_BY_SEARCH, END_LOADING, FEEDBACK, GET_USER_POSTS} from '../actionConstants'
 import * as api from '../api'
 
 //Action creators : are fn that return actions
@@ -76,6 +76,18 @@ export const likePost = (id)=> async(dispatch)=>{
     }
 }
 
+export const getUserPosts = (user_id) => async(dispatch)=>{
+    try{
+        dispatch({ type: START_LOADING });
+        const {data} = await api.getUserPosts(user_id)
+        console.log(data);
+        dispatch({type : GET_USER_POSTS, payload : data})
+        dispatch({ type: END_LOADING });
+    } catch(err) {
+        console.log(err)
+    }
+    dispatch({ type: END_LOADING });
+}
 
 
 

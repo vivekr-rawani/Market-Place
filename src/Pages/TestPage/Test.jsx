@@ -1,46 +1,27 @@
-import { useState } from 'react';
-import './styles.css'
-import { BiImageAdd} from 'react-icons/bi'
+import { RWebShare } from "react-web-share";
+import { useLocation } from "react-router-dom";
 
-
-const intialState = {
-    title: '', message: '', tags: '', selectedFile: ''
+function useQuery(){
+  return new URLSearchParams(useLocation().pathname)
 }
 
-function Test() {
+const Example = () => {
+  const query = useQuery().get('t');
+  console.log(query);
+  return (
+    <div>
+      <RWebShare
+        data={{
+          text: "Like humans, flamingos make friends for life",
+          url: "https://on.natgeo.com/2zHaNup",
+          title: "Flamingos",
+        }}
+        onClick={() => console.log("shared successfully!")}
+      >
+        <button>Share 🔗</button>
+      </RWebShare>
+    </div>
+  );
+};
 
-    const [formData, setFormData] = useState(intialState)
-    const handleInput = (e) => {
-        console.log(e.target.files);
-        const selectedfile = e.target.files;
-        if (selectedfile.length > 0) {
-            const [imageFile] = selectedfile;
-            const fileReader = new FileReader();
-            fileReader.onload = () => {
-                const srcData = fileReader.result;
-                setFormData((s)=>{ return {...s, image : srcData}})
-                
-            };
-            fileReader.readAsDataURL(imageFile);
-        }
-    }
-  
-    const handleSubmit = () => {
-     
-    }
-    return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label className="custom-file-upload">
-                    <input type="file" onInput={handleInput} />
-                   <BiImageAdd/>
-                </label>
-            </form>
-            {}
-            <img src={formData.image} alt=''/>
-
-        </div>
-    )
-}
-
-export default Test
+export default Example;

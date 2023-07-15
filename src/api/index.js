@@ -1,5 +1,5 @@
 import axios from 'axios';
-const link = 'http://localhost:5000' //process.env.REACT_APP_API
+const link = 'http://localhost:5000'//process.env.REACT_APP_API
 
 
 const API = axios.create({ baseURL: link });
@@ -19,6 +19,7 @@ export const createPost = (newPost) => API.post('/posts', newPost);
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`);
 export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost);
 export const deletePost = (id) => API.delete(`/posts/${id}`);
+export const getUserPosts = (user_id) => API.get(`/posts/user?user=${user_id}`)
 
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);
