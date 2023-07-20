@@ -8,6 +8,7 @@ import withWidth from '@material-ui/core/withWidth';
 import Typography from '@material-ui/core/Typography';
 import { useSelector } from 'react-redux';
 import {CircularProgress} from '@material-ui/core'
+import userimage from '../../images/user_image.jpg'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -16,10 +17,10 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
   },
   image: {
-    height: '300px',
-    width: '300px',
+    height: '150px',
+    width: '150px',
     borderRadius: '100%',
-    border: '2px solid #5851B5',
+    border: '1px solid #5851B5',
     padding : '2px'
 
   },
@@ -31,16 +32,10 @@ const useStyles = makeStyles((theme) => ({
 function GridIntegration(props) {
   const classes = useStyles();
 
-
-  const bio = 'these met connected hang leg exist place seen story final current everything sort student slip directly window party part eat post cake scientist atomic'
-  const tweets = ['pictured ourselves cutting highway owner motor stick without appearance potatoes recent sides nature sweet guard realize health shore limited apple she hello hungry sound',
-    'NhucLYaCwGUjb'
-  ]
+ 
   let user = JSON.parse(localStorage.getItem('profile')).result
-  user = { ...user, username: 'vivek_rawani', bio }
+  user = { ...user, username: 'vivek_rawani'}
   const {userPosts, isLoading} = useSelector(state=>state.posts)
-  console.log(userPosts);
-
   if(isLoading)
   return (
     <Paper elevation={6} className={classes.loadingPaper}>
@@ -61,7 +56,8 @@ function GridIntegration(props) {
         <Paper className={classes.paper}>
           <div className="profile-page">
             <div className="profile-header">
-              <img src={user.profilePicture} alt={user.name} className={classes.image} />
+            {user?.profilePicture ?  <img src={user.profilePicture} alt={user.name} className={classes.image} /> : <img src={userimage} alt={user.name} className={classes.image} /> }
+             
               <Typography color='secondary' variant='h4'>{user.name}</Typography>
               <Typography component='div' className={classes.userhandle} gutterBottom>{user?.username && <span>@</span>}
                 <span>{user.username}</span></Typography>
@@ -85,11 +81,7 @@ function GridIntegration(props) {
             </div>
             
             <div className="tweets">
-              {tweets.map((tweet, index) => (
-                <div key={index} className="tweet">
-                  <p>{tweet}</p>
-                </div>
-              ))}
+              {}
             </div>
           </div>
         </Paper>

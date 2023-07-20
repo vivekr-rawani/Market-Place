@@ -62,7 +62,7 @@ export default function MultiActionAreaCard({ post, setCurrentId }) {
   const [likes, setLikes] = useState(post?.likes);
   const userId = user?.result._id
   const hasLiked = likes.find((like) => like === userId);
-  
+
   const handleLike = async () => {
     dispatch(likePost(post._id))
     if (hasLiked) {
@@ -82,18 +82,32 @@ export default function MultiActionAreaCard({ post, setCurrentId }) {
     return <AiOutlineLike fontSize='1.6rem' />
   }
   let likeMessage;
-  if(likes.length===0) likeMessage='be the first to like'
-  else if(hasLiked && likes.length === 1) likeMessage = `You Liked`
-  else if(hasLiked) likeMessage = `You and ${likes.length - 1} other likes`
+  if (likes.length === 0) likeMessage = 'be the first to like'
+  else if (hasLiked && likes.length === 1) likeMessage = `You Liked`
+  else if (hasLiked) likeMessage = `You and ${likes.length - 1} other likes`
   else likeMessage = `${likes.length} likes`
 
   const [dislike, setDislike] = useState(false)
   const handleDisLike = () => {
-    if(hasLiked) setLikes(post.likes.filter((id) => id !== userId))
+    if (hasLiked) setLikes(post.likes.filter((id) => id !== userId))
     setDislike(p => !p)
-    
+
 
   }
+  const auth = (user?.result?.googleId || user?.result?._id === post?.creator)
+
+  const Share = (p) => (
+    <RWebShare
+      data={{
+        text: post.message,
+        url: `https://soci-o-media.netlify.app/post/${post._id}`,
+        title: `Post from &{post.name}`,
+      }}
+    >
+      {p.innerContent}
+    </RWebShare>
+  )
+
 
 
 
@@ -106,9 +120,9 @@ export default function MultiActionAreaCard({ post, setCurrentId }) {
         avatar={
           <Avatar alt={post?.name} src={post?.userProfilePicture} >{post.name.charAt(0)}</Avatar>
         }
-        action={(user?.result?.googleId || user?.result?._id === post?.creator) ? <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleAction}>
+        action={<IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleAction}>
           <MoreVertIcon fontSize="medium" />
-        </IconButton> : null}
+        </IconButton>}
         title={post.name}
         subheader={moment(post.createdAt).fromNow()}
       />
@@ -119,8 +133,11 @@ export default function MultiActionAreaCard({ post, setCurrentId }) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose} >Edit</MenuItem>
-        <MenuItem onClick={handleClose} >Delete</MenuItem>
+        {auth && <MenuItem onClick={handleClose} >Edit</MenuItem>}
+        {auth && <MenuItem onClick={handleClose} >Delete</MenuItem>}
+        <MenuItem onClick={handleClose} ><Share innerContent={<div>Share</div>}/></MenuItem>
+        <MenuItem onClick={handleClose} >Follow {post?.name.split(' ')[0]}</MenuItem>
+        <MenuItem onClick={handleClose} >Mute {post?.name.split(' ')[0]}</MenuItem>
       </Menu>
       <CardActionArea onClick={handleClick}>
         {post.selectedFile && <CardMedia
@@ -136,34 +153,26 @@ export default function MultiActionAreaCard({ post, setCurrentId }) {
         </CardContent>
       </CardActionArea>
       <CardActions disableSpacing>
-       
-       <Box>
-       <IconButton aria-label="add to favorites" onClick={handleLike}>
-          <Likes />  </IconButton> 
-       </Box>
-          <IconButton onClick={handleDisLike}>
+
+        <Box>
+          <IconButton aria-label="add to favorites" onClick={handleLike}>
+            <Likes />  </IconButton>
+        </Box>
+        <IconButton onClick={handleDisLike} className={classes.dislikeBtn}>
           {dislike ? <AiFillDislike fontSize='1.6rem' /> : <AiOutlineDislike fontSize='1.6rem' />}
         </IconButton>
         <IconButton>
           <CommentIcon />
         </IconButton>
-       
-       
+
+
         <ExpandMore
           aria-label="share">
-                <RWebShare
-        data={{
-          text: post.message,
-          url: `https://soci-o-media.netlify.app/post/${post._id}`, 
-          title: `Post from &{post.name}`,
-        }}
-      >
-        <BiSolidShareAlt />
-      </RWebShare>
-         
+          <Share  innerContent={<BiSolidShareAlt />}/>
+
         </ExpandMore>
       </CardActions>
-      <Typography variant='subtitle2'  style={{margin : '-12px 0 12px 12px', color : '#757575'}} > {likeMessage} </Typography> 
+      <Typography variant='subtitle2' style={{ margin: '-12px 0 12px 12px', color: '#757575' }} > {likeMessage} </Typography>
     </Card>
   );
 }

@@ -58,10 +58,10 @@ const {feedback} = useSelector(state=> state.posts)
   // const handleAddTag = (tag) => setTags([...tags, tag])
   // const handleDeleteTag = (tag) => setTags(tags.filter(t => t !== tag))
 
+
   return (
     <Grid container>
       <Grid item sm={3} sx={{ marginRight: 12 }}>
-
       </Grid>
       <Grid item sm={6} mr={12}>
         {show && <Paper elevation={6} style={{ marginBottom: 30 }}>

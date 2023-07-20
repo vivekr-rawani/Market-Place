@@ -12,12 +12,12 @@ import UserDetails from './Pages/UserDetails/UserDetails'
 import { useEffect } from 'react'
 import Footer from './components/Footer/Footer'
 import Test from './Pages/TestPage/Test'
+import { useSelector } from 'react-redux'
 
 
 const App = () => {
-  const user = JSON.parse(localStorage.getItem('profile'))
-  useEffect(()=>{
-  }, [user])
+  const {user} = useSelector(state=> state.auth)
+  const profile = user?.result
   
   
   return (
@@ -25,11 +25,11 @@ const App = () => {
           <Navbar2 />
           <Routes>
             <Route path="/" element={ user ? <Navigate to='/posts' /> : <Navigate to='/auth' /> } />
-            <Route path="/posts" element={<Home />} />
-            <Route path="/posts/search" element={ <Home /> } />
-            <Route path="/post/:id" element={ <PostDetails /> } />
-            <Route path="/user/:id" element={ <UserDetails /> } />
-            <Route path="/auth" element={ <Auth/>} />
+            <Route path="/posts" element={ user ? <Home /> :  <Navigate to='/auth' />} />
+            <Route path="/posts/search" element={ user ? <Home /> :  <Navigate to='/auth' /> } />
+            <Route path="/post/:id" element={ user ? <PostDetails /> :  <Navigate to='/auth' />} />
+            <Route path="/user/:id" element={ user ? <UserDetails />  :  <Navigate to='/auth' />} />
+            <Route path="/auth" element={ user  ? <Navigate to='/' /> : <Auth/>} />
             <Route path="/test" element ={<Test/>}/>
             <Route path="/404" element ={<ErrorPage/>}/>
             <Route path="*" element={<Navigate to="/404"/>} />

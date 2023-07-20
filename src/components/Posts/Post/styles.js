@@ -55,5 +55,9 @@ export default makeStyles({
     width : 'auto',
    
     
+  },
+  dislikeBtn :{
+    marginLeft : '-20px',
+    marginTop : '3px'
   }
 })
